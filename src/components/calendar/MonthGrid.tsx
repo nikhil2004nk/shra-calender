@@ -2,13 +2,13 @@
 import { isToday, isSameMonth, isSameDay } from 'date-fns';
 import { DayCell } from './DayCell';
 import { cn } from '../../lib/utils';
-import type { Event } from '../../data';
+import type { CalendarItem } from '../../utils/types';
 
 interface MonthGridProps {
   month: number;
   year: number;
-  events: Event[];
-  onDateSelect?: (date: Date) => void;  // Made optional
+  events: CalendarItem[];
+  onDateSelect?: (date: Date) => void;
   highlightToday?: boolean;
 }
 

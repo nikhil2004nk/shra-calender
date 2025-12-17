@@ -3,7 +3,7 @@ import rawFunctions from "./functions/functions-2026.json";
 import type { CalendarItem } from "../utils/types";
 
 const withDateParts = (item: any): CalendarItem => {
-  const [year, month] = item.date.split("-").map(Number);
+  const [, month] = item.date.split("-").map(Number);
   return {
     ...item,
     month,

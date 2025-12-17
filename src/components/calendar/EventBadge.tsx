@@ -1,8 +1,8 @@
 import React from "react";
-import type { Event, MovieEvent, FunctionEvent } from "../../utils/types";
+import type { CalendarItem } from "../../utils/types";
 
 interface EventBadgeProps {
-  event: Event;
+  event: CalendarItem;
 }
 
 export const EventBadge: React.FC<EventBadgeProps> = ({ event }) => {

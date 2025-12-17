@@ -51,13 +51,12 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
           const eventsForDay = eventsByDate[dateKey] ?? [];
 
           return (
-            <DayCell
-              key={dateKey}
-              day={day}
-              dateKey={dateKey}
-              events={eventsForDay}
-              onClick={(events) => onDayClick?.(dateKey, events)}
-            />
+            <div key={dateKey} onClick={() => onDayClick?.(dateKey, eventsForDay)}>
+              <DayCell
+                day={day}
+                events={eventsForDay}
+              />
+            </div>
           );
         })}
       </div>

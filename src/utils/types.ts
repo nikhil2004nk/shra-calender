@@ -4,6 +4,21 @@ export type CalendarItemType =
   | "function"
   | "movie-anniversary";
 
+export interface MonthMeta {
+  id: number;
+  name: string;
+  shortName: string;
+  days: number;
+  firstWeekday: number; // 0 = Sunday, 1 = Monday, etc.
+}
+
+export interface EventTypeMeta {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+}
+
 export interface BaseMovie {
   id: string;
   title: string;

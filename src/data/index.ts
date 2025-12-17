@@ -5,8 +5,21 @@ import { events, functionsData } from "./events";
 import type { CalendarItem, EventTypeMeta, MonthMeta } from "../utils/types";
 import { getMovieAnniversariesForYear } from "../lib/dateUtils";
 
+// Export types
+export type { CalendarItem, EventTypeMeta, MonthMeta } from "../utils/types";
+
 export const months = monthsJson as MonthMeta[];
-export const eventTypes = eventTypesJson as EventTypeMeta[];
+export const eventTypes = eventTypesJson as unknown as EventTypeMeta[];
+
+// Export all events
+export const allEvents = [...events, ...functionsData];
+
+// Export function to get events by month
+export const getEventsByMonth = (year: number, month: number) => {
+  return getCalendarItemsForYear(year).filter(
+    (event) => new Date(event.date).getMonth() + 1 === month
+  );
+};
 
 /**
  * Build all calendar items for a given year:

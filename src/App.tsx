@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { LandingPage } from "./pages/LandingPage";
 import { CalendarHomePage } from "./pages/CalendarHomePage";
 import { MonthlyViewPage } from "./pages/MonthlyViewPage";
