@@ -1,0 +1,62 @@
+[
+  {
+    "id": "movie-1",
+    "title": "The Last Adventure",
+    "date": "2021-01-15",
+    "type": "movie",
+    "description": "An epic adventure movie about a group of explorers searching for a lost city in the Amazon.",
+    "imageUrl": "/images/movie-placeholder.jpg",
+    "director": "James Cameron",
+    "cast": ["Tom Holland", "Zendaya", "Dwayne Johnson"],
+    "duration": 145,
+    "isMovie": true
+  },
+  {
+    "id": "movie-2",
+    "title": "Galactic Odyssey",
+    "date": "2022-03-22",
+    "type": "movie",
+    "description": "A space exploration movie set in the year 2150, featuring intergalactic travel and alien encounters.",
+    "imageUrl": "/images/movie-placeholder.jpg",
+    "director": "Denis Villeneuve",
+    "cast": ["Timothée Chalamet", "Rebecca Ferguson", "Oscar Isaac"],
+    "duration": 158,
+    "isMovie": true
+  },
+  {
+    "id": "movie-3",
+    "title": "Midnight in Paris",
+    "date": "2023-12-12",
+    "type": "movie",
+    "description": "A romantic comedy about a writer who finds himself mysteriously going back to the 1920s every night at midnight.",
+    "imageUrl": "/images/movie-placeholder.jpg",
+    "director": "Woody Allen",
+    "cast": ["Owen Wilson", "Rachel McAdams", "Marion Cotillard"],
+    "duration": 94,
+    "isMovie": true
+  },
+  {
+    "id": "movie-4",
+    "title": "The Last Stand",
+    "date": "2024-08-05",
+    "type": "movie",
+    "description": "A retired sheriff must organize a ragtag team to take down a drug cartel leader at the US-Mexico border.",
+    "imageUrl": "/images/movie-placeholder.jpg",
+    "director": "Jee-woon Kim",
+    "cast": ["Arnold Schwarzenegger", "Forest Whitaker", "Johnny Knoxville"],
+    "duration": 107,
+    "isMovie": true
+  },
+  {
+    "id": "movie-5",
+    "title": "Eternal Sunshine",
+    "date": "2025-11-20",
+    "type": "movie",
+    "description": "A psychological drama exploring the boundaries of memory and love through a groundbreaking medical procedure.",
+    "imageUrl": "/images/movie-placeholder.jpg",
+    "director": "Michel Gondry",
+    "cast": ["Joaquin Phoenix", "Kate Winslet", "Kirsten Dunst"],
+    "duration": 108,
+    "isMovie": true
+  }
+]

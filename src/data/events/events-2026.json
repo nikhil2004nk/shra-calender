@@ -1,0 +1,29 @@
+[
+  {
+    "id": "event-1",
+    "title": "Tech Conference 2026",
+    "date": "2026-04-05",
+    "type": "conference",
+    "description": "Annual technology conference featuring the latest in AI, blockchain, and quantum computing.",
+    "location": "San Francisco Convention Center",
+    "imageUrl": "/images/event-placeholder.jpg"
+  },
+  {
+    "id": "event-2",
+    "title": "Music Festival",
+    "date": "2026-06-15",
+    "type": "festival",
+    "description": "Three-day music festival featuring top artists from around the world.",
+    "location": "Central Park, New York",
+    "imageUrl": "/images/event-placeholder.jpg"
+  },
+  {
+    "id": "event-3",
+    "title": "Art Exhibition: Modern Masters",
+    "date": "2026-09-22",
+    "type": "exhibition",
+    "description": "Exhibition featuring works by contemporary artists pushing the boundaries of modern art.",
+    "location": "Tate Modern, London",
+    "imageUrl": "/images/event-placeholder.jpg"
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "function-1",
+    "title": "Annual Gala Dinner",
+    "date": "2026-05-20",
+    "type": "gala",
+    "description": "Black-tie gala dinner to celebrate our annual achievements and honor outstanding contributors.",
+    "location": "The Ritz-Carlton, New York",
+    "organizer": "Shraddha Foundation",
+    "attendees": ["John Smith", "Sarah Johnson", "Michael Chen", "Emma Wilson"],
+    "isFunction": true
+  },
+  {
+    "id": "function-2",
+    "title": "Product Launch Event",
+    "date": "2026-07-10",
+    "type": "launch",
+    "description": "Exclusive launch event for our revolutionary new product line.",
+    "location": "Moscone Center, San Francisco",
+    "organizer": "Tech Innovations Inc.",
+    "attendees": ["David Kim", "Lisa Wong", "Robert Taylor", "Priya Patel"],
+    "isFunction": true
+  },
+  {
+    "id": "function-3",
+    "title": "Charity Auction",
+    "date": "2026-11-15",
+    "type": "charity",
+    "description": "Annual charity auction to raise funds for children's education in underprivileged communities.",
+    "location": "The Plaza Hotel, New York",
+    "organizer": "Hope for Tomorrow Foundation",
+    "attendees": ["Jennifer Lee", "Thomas Brown", "Maria Garcia", "James Wilson"],
+    "isFunction": true
+  }
+]

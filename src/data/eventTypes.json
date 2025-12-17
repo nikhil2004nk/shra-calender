@@ -1,0 +1,62 @@
+[
+  {
+    "id": "movie",
+    "name": "Movie",
+    "color": "purple",
+    "icon": "film"
+  },
+  {
+    "id": "conference",
+    "name": "Conference",
+    "color": "blue",
+    "icon": "users"
+  },
+  {
+    "id": "festival",
+    "name": "Festival",
+    "color": "green",
+    "icon": "music"
+  },
+  {
+    "id": "exhibition",
+    "name": "Exhibition",
+    "color": "yellow",
+    "icon": "image"
+  },
+  {
+    "id": "gala",
+    "name": "Gala",
+    "color": "red",
+    "icon": "star"
+  },
+  {
+    "id": "launch",
+    "name": "Product Launch",
+    "color": "indigo",
+    "icon": "rocket"
+  },
+  {
+    "id": "charity",
+    "name": "Charity",
+    "color": "pink",
+    "icon": "heart"
+  },
+  {
+    "id": "meeting",
+    "name": "Meeting",
+    "color": "gray",
+    "icon": "briefcase"
+  },
+  {
+    "id": "workshop",
+    "name": "Workshop",
+    "color": "teal",
+    "icon": "tool"
+  },
+  {
+    "id": "webinar",
+    "name": "Webinar",
+    "color": "cyan",
+    "icon": "video"
+  }
+]
