@@ -1,10 +1,10 @@
 import { EventCard } from '../events/EventCard';
-import type { Event } from '../../data';
+import type { CalendarItem } from '../../utils/types';
 
 interface SearchResultsProps {
-  results: Event[];
+  results: CalendarItem[];
   query: string;
-  onEventClick: (event: Event) => void;
+  onEventClick: (event: CalendarItem) => void;
 }
 
 export const SearchResults: React.FC<SearchResultsProps> = ({
@@ -71,10 +71,10 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {results.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            onClick={() => onEventClick(event)}
+          <EventCard 
+            key={event.id} 
+            event={event} 
+            onClick={() => onEventClick(event)} 
           />
         ))}
       </div>

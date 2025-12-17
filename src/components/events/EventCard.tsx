@@ -4,11 +4,12 @@ import { EventBadge } from "./EventBadge";
 
 interface EventCardProps {
   event: Event;
+  onClick?: () => void;
 }
 
-export const EventCard: React.FC<EventCardProps> = ({ event }) => {
+export const EventCard: React.FC<EventCardProps> = ({ event, onClick }) => {
   return (
-    <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3 text-sm">
+    <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3 text-sm cursor-pointer hover:bg-slate-800/70 transition-colors" onClick={onClick}>
       <div className="flex items-center justify-between mb-1 gap-2">
         <span className="font-semibold text-slate-100 truncate">
           {event.title}

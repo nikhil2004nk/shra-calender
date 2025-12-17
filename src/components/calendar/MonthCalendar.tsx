@@ -1,6 +1,5 @@
 import React from "react";
-import type { Event } from "../../utils/types";
-import type { MonthMeta } from "../../utils/dateUtils";
+import type { Event, MonthMeta } from "../../utils/types";
 import { buildDateKey } from "../../utils/dateUtils";
 import { DayCell } from "./DayCell";
 
