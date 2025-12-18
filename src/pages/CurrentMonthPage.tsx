@@ -42,6 +42,23 @@ export const CurrentMonthPage: React.FC<CurrentMonthPageProps> = ({
     setSelectedEvents(events);
   };
 
+  const handleTodayClick = () => {
+    const today = new Date();
+    const todayYear = today.getFullYear();
+    const todayMonth = today.getMonth() + 1; // 1-12
+    
+    // If we're not already on the current month, navigate to it
+    if (todayYear !== year || todayMonth !== monthId) {
+      // In a real app, you would update the URL or trigger a navigation
+      // For now, we'll just log it since this is a simplified example
+      console.log(`Navigating to current month: ${todayMonth}/${todayYear}`);
+      // In a real implementation, you would update the route or state here
+    }
+    
+    // Close any open modals when going to today
+    setSelectedDate(null);
+  };
+
   const summaryEvents: Event[] = eventsForMonth;
 
   return (
@@ -65,6 +82,7 @@ export const CurrentMonthPage: React.FC<CurrentMonthPageProps> = ({
         monthMeta={monthMeta}
         eventsByDate={eventsByDate}
         onDayClick={handleDayClick}
+        onTodayClick={handleTodayClick}
       />
 
       <EventList

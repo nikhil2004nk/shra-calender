@@ -62,15 +62,18 @@ export const EventBadge: React.FC<EventBadgeProps> = ({ event }) => {
 
   return (
     <div
-      className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] ${cfg.bg} ${cfg.border} ${cfg.text}`}
-      title={event.title}
+      className={`group relative flex items-start space-x-1 rounded-md p-1 text-left transition-colors ${cfg.bg} ${cfg.border} ${cfg.text} hover:opacity-90`}
     >
-      <span
-        className={`inline-flex items-center rounded-full px-2 py-[1px] text-[10px] font-semibold ${cfg.chipBg} ${cfg.chipText}`}
-      >
-        {cfg.label}
-      </span>
-      <span className="truncate">{getDisplayTitle()}</span>
+      <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="flex items-center justify-between">
+          <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] sm:text-[10px] font-medium ${cfg.chipBg} ${cfg.chipText} whitespace-nowrap`}>
+            {cfg.label.length > 3 ? `${cfg.label.substring(0, 3)}.` : cfg.label}
+          </span>
+        </div>
+        <p className="mt-0.5 text-[10px] sm:text-xs font-medium leading-tight text-ellipsis overflow-hidden whitespace-nowrap">
+          {getDisplayTitle()}
+        </p>
+      </div>
     </div>
   );
 };
