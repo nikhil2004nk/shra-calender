@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       assetsDir: 'assets',
       sourcemap: true,
       emptyOutDir: true,
+      manifest: true,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name]-[hash][extname]',
