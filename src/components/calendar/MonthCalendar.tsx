@@ -4,6 +4,100 @@ import { buildDateKey, cn } from "../../utils";
 import { DayCell } from "./DayCell";
 import { format } from "date-fns";
 
+interface MonthlySummaryProps {
+  eventsByDate: Record<string, Event[]>;
+}
+
+const MonthlySummary: React.FC<MonthlySummaryProps> = ({ eventsByDate }) => {
+  // Calculate summary statistics
+  const summary = useMemo(() => {
+    const allEvents = Object.values(eventsByDate).flat();
+    const totalEvents = allEvents.length;
+    
+    // Count events by type
+    const eventsByType: Record<string, number> = {};
+    allEvents.forEach(event => {
+      eventsByType[event.type] = (eventsByType[event.type] || 0) + 1;
+    });
+
+    // Count events by weekday
+    const eventsByWeekday: Record<string, number> = {};
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    weekdays.forEach(day => eventsByWeekday[day] = 0);
+    
+    Object.entries(eventsByDate).forEach(([date, events]) => {
+      const dayOfWeek = new Date(date).getDay();
+      eventsByWeekday[weekdays[dayOfWeek]] += events.length;
+    });
+
+    return {
+      totalEvents,
+      eventsByType,
+      eventsByWeekday,
+      weekdays: weekdays.map(day => ({
+        day,
+        count: eventsByWeekday[day],
+        percentage: Math.round((eventsByWeekday[day] / totalEvents) * 100) || 0
+      }))
+    };
+  }, [eventsByDate]);
+
+  if (summary.totalEvents === 0) {
+    return (
+      <div className="mt-6 rounded-lg bg-slate-800/50 p-4 text-center text-slate-400">
+        No events scheduled for this month.
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-6 rounded-xl border border-slate-800 bg-slate-900/80 p-4">
+      <h3 className="mb-3 text-lg font-semibold text-white">Monthly Summary</h3>
+      
+      <div className="mb-4">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-sm font-medium text-slate-300">Total Events</span>
+          <span className="rounded-full bg-blue-600/20 px-2.5 py-1 text-xs font-medium text-blue-400">
+            {summary.totalEvents} {summary.totalEvents === 1 ? 'event' : 'events'}
+          </span>
+        </div>
+      </div>
+
+      {Object.keys(summary.eventsByType).length > 0 && (
+        <div className="mb-4">
+          <h4 className="mb-2 text-sm font-medium text-slate-300">By Event Type</h4>
+          <div className="space-y-2">
+            {Object.entries(summary.eventsByType).map(([type, count]) => (
+              <div key={type} className="flex items-center justify-between">
+                <span className="text-sm text-slate-400">{type}</span>
+                <span className="text-sm font-medium text-slate-200">{count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h4 className="mb-2 text-sm font-medium text-slate-300">Events by Day</h4>
+        <div className="grid grid-cols-7 gap-1 text-center">
+          {summary.weekdays.map(({ day, count, percentage }) => (
+            <div key={day} className="flex flex-col items-center">
+              <div className="text-xs text-slate-400">{day[0]}</div>
+              <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-slate-800">
+                <div 
+                  className="h-full bg-blue-500" 
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+              <div className="mt-1 text-xs font-medium text-slate-300">{count}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface MonthCalendarProps {
   year: number;
   monthMeta: MonthMeta;
@@ -94,8 +188,11 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
             return (
               <div 
                 key={dateKey} 
-                className="group relative min-h-[4rem] sm:min-h-[7rem] bg-slate-900/50 transition-colors hover:bg-slate-800/50"
-                onClick={() => onDayClick?.(dateKey, eventsForDay)}
+                className={cn(
+                  "group relative min-h-[4rem] bg-slate-900/50 transition-colors sm:min-h-[7rem]",
+                  eventsForDay.length > 0 ? "cursor-pointer hover:bg-slate-800/50" : ""
+                )}
+                onClick={() => eventsForDay.length > 0 && onDayClick?.(dateKey, eventsForDay)}
               >
                 <DayCell
                   day={day}
@@ -108,6 +205,9 @@ export const MonthCalendar: React.FC<MonthCalendarProps> = ({
           })}
         </div>
       </div>
+      
+      {/* Monthly Summary Section */}
+      <MonthlySummary eventsByDate={eventsByDate} />
     </div>
   );
 };

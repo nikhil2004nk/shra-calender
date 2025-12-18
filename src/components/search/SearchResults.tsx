@@ -14,7 +14,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 }) => {
   if (!query) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 px-4">
         <div className="text-gray-400">
           <svg
             className="mx-auto h-12 w-12"
@@ -40,7 +40,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 px-4">
         <div className="text-gray-400">
           <svg
             className="mx-auto h-12 w-12"
@@ -65,11 +65,14 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   }
 
   return (
-    <div>
-      <h2 className="text-lg font-medium text-gray-900 mb-4">
-        {results.length} {results.length === 1 ? 'result' : 'results'} for "{query}"
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="w-full max-w-full overflow-x-hidden">
+      <div className="px-4 sm:px-6">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">
+          {results.length} {results.length === 1 ? 'result' : 'results'} for "{query}"
+        </h2>
+      </div>
+      <div className="w-full max-w-full overflow-x-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 min-w-min md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full" style={{ minWidth: 'min-content' }}>
         {results.map((event) => (
           <EventCard 
             key={event.id} 
@@ -77,6 +80,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
             onClick={() => onEventClick(event)} 
           />
         ))}
+        </div>
       </div>
     </div>
   );
