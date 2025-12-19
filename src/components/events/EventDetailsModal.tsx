@@ -109,7 +109,7 @@ export const EventDetailsModal: React.FC<EventDetailsModalProps> = ({
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <p className="text-gray-500">Event Date</p>
-                      <p className="font-medium">{formatDisplayDate(event.date)}</p>
+                      <p className="font-medium text-gray-800">{formatDisplayDate(event.date)}</p>
                     </div>
                     {event.meta?.anniversaryYears && (
                       <div className="bg-yellow-50 p-3 rounded-lg border-l-4 border-yellow-400">
