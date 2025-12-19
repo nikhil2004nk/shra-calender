@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { movies } from "../data/movies";
 import { format, parseISO } from "date-fns";
 import { Dialog } from "@headlessui/react";
-import { XMarkIcon, FilmIcon, CalendarIcon, ClockIcon, UserGroupIcon, StarIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, FilmIcon, CalendarIcon, ClockIcon, UserGroupIcon, StarIcon, ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { YearDropdown } from "../components/YearDropdown";
 import "../styles/dropdown-styles.css";
+import { useRef, useEffect } from 'react';
 
 
 interface MoviesPageProps {
@@ -42,8 +43,22 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
-  const [showUpcomingOnly, setShowUpcomingOnly] = useState(false);
+  const [releaseFilter, setReleaseFilter] = useState<'all' | 'released' | 'upcoming'>('all');
+  const [isReleaseFilterOpen, setIsReleaseFilterOpen] = useState(false);
+  const releaseFilterRef = useRef<HTMLDivElement>(null);
   const currentDate = new Date();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (releaseFilterRef.current && !releaseFilterRef.current.contains(event.target as Node)) {
+        setIsReleaseFilterOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   
   // Helper function to safely parse and format dates
   const processMovieDate = (dateString: string) => {
@@ -120,10 +135,23 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
       filtered = filtered.filter(movie => movie.year === selectedYear);
     }
     
-    // Apply upcoming filter
-    if (showUpcomingOnly) {
-      filtered = filtered.filter(movie => movie._date > currentDate);
-    }
+    // Apply release status filter
+  // Update the filterMovies function's release status filter section:
+if (releaseFilter === 'released') {
+  filtered = filtered.filter(movie => 
+    movie._date <= currentDate && 
+    movie.date && 
+    movie.date.toUpperCase() !== 'TBA' &&
+    movie.type !== 'upcoming'
+  );
+} else if (releaseFilter === 'upcoming') {
+  filtered = filtered.filter(movie => 
+    movie._date > currentDate || 
+    !movie.date || 
+    movie.date.toUpperCase() === 'TBA' || 
+    movie.type === 'upcoming'
+  );
+}
     
     return filtered;
   };
@@ -133,7 +161,7 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
     const years = new Set<number>();
     
     // If we have an active search or filters, get years from filtered movies
-    const moviesToProcess = (searchQuery.trim() || selectedYear !== 'all' || showUpcomingOnly)
+    const moviesToProcess = (searchQuery.trim() || selectedYear !== 'all' || releaseFilter !== 'all')
       ? filterMovies(processedMovies)
       : processedMovies;
     
@@ -144,7 +172,7 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
     });
     
     return Array.from(years).sort((a, b) => b - a);
-  }, [processedMovies, searchQuery, selectedYear, showUpcomingOnly]);
+  }, [processedMovies, searchQuery, selectedYear, releaseFilter]);
   
   // Group movies by year
   const moviesByYear = React.useMemo(() => {
@@ -167,27 +195,9 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
       .sort((a, b) => b.year - a.year);
   }, [processedMovies]);
 
-  // Get released movies - includes movies with past or current dates
-  const releasedMovies = React.useMemo(() => {
-    return processedMovies
-      .filter(movie => {
-        // Exclude upcoming movies
-        if (movie.type === 'upcoming') return false;
-        
-        // Include if the date is in the past or today
-        if (movie._date && movie._date <= currentDate) return true;
-        
-        return false;
-      })
-      .sort((a, b) => {
-        // Sort by date in descending order (newest first)
-        return (b._date as Date).getTime() - (a._date as Date).getTime();
-      });
-  }, [processedMovies, currentDate]);
-
   // Get upcoming movies - includes movies with future dates, type 'upcoming', or TBA dates
   const upcomingMovies = React.useMemo(() => {
-    return processedMovies
+    return filterMovies(processedMovies)
       .filter(movie => {
         // Include if it's explicitly marked as upcoming
         if (movie.type === 'upcoming') return true;
@@ -296,41 +306,53 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
               />
             </div>
 
-            {/* Upcoming Filter */}
-            <div className="flex items-center h-12 px-4 bg-slate-800 border border-slate-700 rounded-xl hover:bg-slate-800/90 transition-colors">
-              <div className="flex items-center">
-                <div className="flex items-center h-5">
-                  <input
-                    type="checkbox"
-                    id="upcoming-filter"
-                    checked={showUpcomingOnly}
-                    onChange={(e) => setShowUpcomingOnly(e.target.checked)}
-                    className="h-5 w-5 rounded-full border-2 border-slate-600 bg-slate-800 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-slate-900 cursor-pointer appearance-none transition-colors duration-200"
-                    style={{
-                      backgroundImage: showUpcomingOnly ? 'none' : 'none',
-                      backgroundSize: '0.6rem',
-                      backgroundPosition: 'center',
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  />
-                  {showUpcomingOnly && (
-                    <div className="absolute h-5 w-5 flex items-center justify-center pointer-events-none">
-                      <div className="h-2.5 w-2.5 rounded-full bg-pink-500"></div>
-                    </div>
-                  )}
+            {/* Release Status Filter */}
+            <div className="relative w-48" ref={releaseFilterRef}>
+              <button
+                type="button"
+                onClick={() => setIsReleaseFilterOpen(!isReleaseFilterOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 text-left bg-slate-800 border border-slate-700 rounded-xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 hover:border-slate-600"
+              >
+                <span>{
+                  releaseFilter === 'all' ? 'All Movies' :
+                  releaseFilter === 'released' ? 'Already Released' : 'Upcoming'
+                }</span>
+                <ChevronDownIcon 
+                  className={`h-5 w-5 text-slate-400 transition-transform duration-200 ${isReleaseFilterOpen ? 'transform rotate-180' : ''}`} 
+                  aria-hidden="true" 
+                />
+              </button>
+
+              {isReleaseFilterOpen && (
+                <div className="absolute z-10 mt-1 w-full bg-slate-800 border border-slate-700 rounded-xl shadow-lg overflow-hidden animate-dropdown">
+                  <div className="max-h-60 overflow-y-auto custom-scrollbar">
+                    {[
+                      { value: 'all', label: 'All Movies' },
+                      { value: 'released', label: 'Already Released' },
+                      { value: 'upcoming', label: 'Upcoming' }
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setReleaseFilter(option.value as 'all' | 'released' | 'upcoming');
+                          setIsReleaseFilterOpen(false);
+                        }}
+                        className={`w-full px-4 py-2 text-left hover:bg-slate-700/50 flex items-center justify-between ${
+                          releaseFilter === option.value ? 'bg-pink-900/50 text-pink-300' : 'text-slate-200'
+                        }`}
+                      >
+                        <span>{option.label}</span>
+                        {releaseFilter === option.value && <CheckIcon className="h-4 w-4 text-pink-400" />}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <label 
-                  htmlFor="upcoming-filter" 
-                  className="ml-3 text-sm font-medium text-slate-300 cursor-pointer select-none hover:text-white transition-colors"
-                >
-                  Upcoming Only
-                </label>
-              </div>
+              )}
             </div>
           </div>
 
           {/* Active Filters */}
-          {(selectedYear !== 'all' || showUpcomingOnly) && (
+          {(selectedYear !== 'all' || releaseFilter !== 'all') && (
             <div className="flex flex-wrap gap-2">
               {selectedYear !== 'all' && (
                 <div className="flex items-center bg-pink-900/30 text-pink-300 text-sm px-3 py-1.5 rounded-full">
@@ -343,11 +365,22 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
                   </button>
                 </div>
               )}
-              {showUpcomingOnly && (
+              {releaseFilter === 'upcoming' && (
                 <div className="flex items-center bg-pink-900/30 text-pink-300 text-sm px-3 py-1.5 rounded-full">
-                  <span>Upcoming Only</span>
+                  <span>Upcoming</span>
                   <button 
-                    onClick={() => setShowUpcomingOnly(false)}
+                    onClick={() => setReleaseFilter('all')}
+                    className="ml-2 text-pink-400 hover:text-white"
+                  >
+                    <XMarkIcon className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+              {releaseFilter === 'released' && (
+                <div className="flex items-center bg-pink-900/30 text-pink-300 text-sm px-3 py-1.5 rounded-full">
+                  <span>Released</span>
+                  <button 
+                    onClick={() => setReleaseFilter('all')}
                     className="ml-2 text-pink-400 hover:text-white"
                   >
                     <XMarkIcon className="h-4 w-4" />
@@ -358,19 +391,14 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
           )}
         </div>
 
-        {/* Released Movies Section */}
-        {releasedMovies.length > 0 && (
+        {/* Upcoming Movies Section */}
+        {releaseFilter !== 'released' && upcomingMovies.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-              <span className="bg-gradient-to-r from-pink-500 to-purple-600 text-transparent bg-clip-text">
-                Released Movies
-              </span>
-              <span className="ml-2 text-sm text-slate-400">
-                • {releasedMovies.length} {releasedMovies.length === 1 ? 'Movie' : 'Movies'}
-              </span>
+            <h2 className="text-2xl font-bold mb-4 text-pink-400 border-b border-pink-900 pb-2">
+              Upcoming Movies • {upcomingMovies.length}
             </h2>
-            <div className="space-y-3">
-              {releasedMovies.map((movie) => (
+            <div className="space-y-1 bg-slate-900/50 rounded-xl p-1">
+              {upcomingMovies.map((movie) => (
                 <MovieListItem 
                   key={movie.id} 
                   movie={movie} 
@@ -380,16 +408,16 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
             </div>
           </section>
         )}
-
-        {/* Upcoming Movies Section */}
-        {upcomingMovies.length > 0 && (processedMovies).filter(movie => movie._date > currentDate).length > 0 && (
+        
+        {/* Already Released Movies Section */}
+        {releaseFilter === 'released' && filterMovies(processedMovies).filter(movie => movie._date <= currentDate).length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-pink-400 border-b border-pink-900 pb-2">
-              Upcoming Movies • {upcomingMovies.length}
+            <h2 className="text-2xl font-bold mb-4 text-emerald-400 border-b border-emerald-900 pb-2">
+              Already Released • {filterMovies(processedMovies).filter(movie => movie._date <= currentDate).length}
             </h2>
             <div className="space-y-1 bg-slate-900/50 rounded-xl p-1">
               {filterMovies(processedMovies)
-                .filter(movie => movie._date > currentDate)
+                .filter(movie => movie._date <= currentDate)
                 .map((movie) => (
                 <MovieListItem 
                   key={movie.id} 
@@ -401,9 +429,9 @@ export const MoviesPage: React.FC<MoviesPageProps> = ({ onBack }) => {
           </section>
         )}
         
-        {/* Movies by Year */}
+        {/* Movies by Year (only show when no specific filter is active) */}
         <div className="space-y-8">
-          {moviesByYear
+          {releaseFilter === 'all' && moviesByYear
             .map(({ year, movies }) => ({
               year,
               movies: filterMovies(movies)

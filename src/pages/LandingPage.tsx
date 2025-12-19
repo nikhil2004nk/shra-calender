@@ -35,7 +35,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             onClick={onGoViewCalendar}
             className="flex-1 rounded-xl bg-slate-900 border border-slate-700 px-4 py-3 text-sm font-semibold text-slate-100 hover:bg-slate-800 transition"
           >
-            View Calendar (Jan–Dec)
+            View Calendar
           </button>
           <button
             onClick={onGoMonthly}
