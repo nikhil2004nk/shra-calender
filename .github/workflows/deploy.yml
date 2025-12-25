@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [nik-branch]
+    branches: [main]  # Changed from nik-branch to main
   workflow_dispatch:
 
 permissions:
@@ -39,7 +39,7 @@ jobs:
           npm run build
         env:
           NODE_ENV: production
-          VITE_BASE_URL: /shra-calendar/
+          VITE_BASE_URL: /shra-calendar/  # Make sure this matches your repository name
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
