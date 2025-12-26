@@ -22,7 +22,6 @@ export const DayCell: React.FC<DayCellProps> = ({
 }) => {
   const hasEvents = events.length > 0;
   const visibleEvents = events; // Show all events
-  const hasMore = false; // No longer needed since we show all events
   
   const dayNumberClasses = cn(
     "flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium transition-colors cursor-pointer",
