@@ -7,6 +7,8 @@ export default defineConfig(() => {
   // For Vercel deployment - use root base path
   // Can be overridden with VITE_BASE_URL environment variable for other deployments
   const base = process.env.VITE_BASE_URL || '/';
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   return {
     plugins: [react()],
     base,
@@ -23,16 +25,23 @@ export default defineConfig(() => {
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
-      sourcemap: true,
+      sourcemap: !isProduction, // Disable sourcemaps in production for better performance
       emptyOutDir: true,
       manifest: true,
+      minify: 'esbuild',
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name]-[hash][extname]',
           entryFileNames: 'assets/[name]-[hash].js',
-          chunkFileNames: 'assets/[name]-[hash].js'
+          chunkFileNames: 'assets/[name]-[hash].js',
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': ['@headlessui/react', '@heroicons/react', 'lucide-react'],
+            'query-vendor': ['@tanstack/react-query']
+          }
         }
-      }
+      },
+      chunkSizeWarningLimit: 1000
     },
     define: {
       'process.env': {}
