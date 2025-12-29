@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { FaInstagram } from "react-icons/fa";
 import { LandingPage } from "./pages/LandingPage";
 import { CalendarHomePage } from "./pages/CalendarHomePage";
 import { MonthlyViewPage } from "./pages/MonthlyViewPage";
@@ -9,7 +10,26 @@ import { months } from "./data";
 const Footer = () => (
   <footer className="py-3 md:py-6 text-center text-xs sm:text-sm text-slate-400 bg-slate-950 border-t border-slate-800">
     <p className="m-0 p-0">
-      Developed with 💖 by <span className="text-purple-300 font-semibold">Nikhil</span> & <span className="text-purple-300 font-semibold">Vaibhav</span>
+      Developed with 💖 by{" "}
+      <a
+        href="https://www.instagram.com/shraddhaxtales?igsh=bGwwczhoZjhiMjM2"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-purple-300 font-semibold hover:text-purple-200 inline-flex items-center gap-1 transition-colors"
+      >
+        Nikhil
+        <FaInstagram className="w-4 h-4 sm:w-5 sm:h-5" />
+      </a>{"  "}
+      &{"  "}
+      <a
+        href="https://www.instagram.com/shraddhas_vaibhav?igsh=eDN5N2hyc2hpdXdo"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-purple-300 font-semibold hover:text-purple-200 inline-flex items-center gap-1 transition-colors"
+      >
+        Vaibhav
+        <FaInstagram className="w-4 h-4 sm:w-5 sm:h-5" />
+      </a>
     </p>
   </footer>
 );
@@ -116,8 +136,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-50">
-      <div className="flex-1">
+    <div className="h-screen flex flex-col bg-slate-950 text-slate-50 overflow-hidden">
+      <div className="flex-1 overflow-auto">
         {pageContent}
       </div>
       <Footer />

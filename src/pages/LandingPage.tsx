@@ -14,8 +14,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onGoMovies
 }) => {
   return (
-     <main className="min-h-screen bg-slate-950 text-slate-50 flex flex-col">
-    <section className="flex-1 flex flex-col items-center justify-center px-4 text-center">
+     <main className="h-full bg-slate-950 text-slate-50 flex flex-col">
+    <section className="flex-1 flex flex-col items-center justify-center px-4 text-center py-8">
        <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 mx-auto transform transition-all duration-300 hover:scale-105 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 via-20% to-transparent z-10 pointer-events-none"></div>
           <img 
